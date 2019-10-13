@@ -1,4 +1,4 @@
-# tinfoilmmscraper
+# ductile mm level browser
 scraper for mario maker levels on tinfoil.io
 
 It downloads course names and icons.
