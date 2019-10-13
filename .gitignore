@@ -1,0 +1,7 @@
+icons/*.jpg
+save/*.bcd
+save/*.btl
+*.zip
+chromedriver.exe
+debug.log
+*.pickle
