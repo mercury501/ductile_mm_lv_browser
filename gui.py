@@ -126,7 +126,7 @@ class MyWindow:
             os.remove(here + '/save/' + str(k) + '.zip')
 
         #uploading to the switch
-        os.system('transfer_levels.py')
+        #os.system('transfer_levels.py')
 
 
 
