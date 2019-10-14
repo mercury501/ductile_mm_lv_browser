@@ -31,10 +31,10 @@ levelikes_bd = []
 currentpage = 1  #current page of tinfoil's web level list
 
 good_prefixes = ('<div class = "ticon"', 'bye')
-download_prefix = 'https://tinfoil.io/MarioMaker/Download/'  #prefixes to build urls or filter html
-icon_prefix = 'https://tinfoil.io/MarioMaker/Thumb/'
+download_prefix = 'https://tinfoil.media/MarioMaker/Download/'  #prefixes to build urls or filter html
+icon_prefix = 'https://tinfoil.media/MarioMaker/Thumb/'
 
-url = 'https://tinfoil.io/MarioMaker/'
+url = 'https://tinfoil.media/MarioMaker/'
     
 with open(os.path.join(here, "levdownloaded.pickle"), "rb") as fp:  #open downloaded level list, to remove them after a new scraping
     levdownloaded = pickle.load(fp)
