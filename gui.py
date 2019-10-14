@@ -7,6 +7,7 @@ from PIL import ImageTk, Image
 import zipfile
 import wget
 import time
+import requests
 
 
 lbl = [None for a in range(100)]
@@ -14,6 +15,7 @@ here = os.path.dirname(os.path.abspath(__file__))
 
 downloaded_indexes = []
 download_prefix = 'https://tinfoil.media/MarioMaker/Download/'
+icon_prefix = 'https://tinfoil.media/MarioMaker/Thumb/'
 levdownloaded = []
 
 with open(os.path.join(here, "levelnames.pickle"), "rb") as fp:
@@ -43,10 +45,16 @@ class MyWindow:
     
     def __init__(self, win):
 
-        
-        
-        
-
+        os.system('tinfoilmmscraper.py')
+        ''' TODO download and send via ftp
+        self.ftp_addr = Entry(win)
+        self.ftp_addr.place(x = 400, y = 750)
+        self.ftp_lab = Label(window,text = 'Switch FTP address')
+        self.ftp_lab.place(x = 400, y = 730)
+        self.downloadas_btn=Button(win, text='DOWNLOAD and FTP', fg = 'red')
+        self.downloadas_btn.bind('<Button-1>', self.download)
+        self.downloadas_btn.place(x = 20, y = 750)
+        '''
         self.del_sel=Button(win, text='Delete Selected')
         self.del_sel.bind('<Button-1>', self.remove_selected)
         self.del_sel.place(x = 100, y = 750)
@@ -75,10 +83,12 @@ class MyWindow:
         self.addsel.bind('<Button-1>', self.addselected)
         self.addsel.place(x = 1000, y = 750)
 
+        '''
         self.pagefwd=Button(win, text='Scrape')
         self.pagefwd.bind('<Button-1>', self.scrape)
         self.pagefwd.place(x = 700, y = 750)
-        
+        '''
+
         self.updateui(1)
         self.updateicon(1)
 
@@ -86,8 +96,8 @@ class MyWindow:
 
     def remove_selected(self, value):
         for l in range(0, len(self.selected_lv)):
-            print(here + "/icons/" + levelnumbers[int(self.selected_lv[l])] + ".jpg")
-            os.remove(here + "/icons/" + levelnumbers[int(self.selected_lv[l])] + ".jpg" )
+            print(here + "/icons/" + str(levelnumbers[int(self.selected_lv[l])]) + ".jpg")
+            os.remove(here + "/icons/" + str(levelnumbers[int(self.selected_lv[l])]) + ".jpg" )
 
         for k in range(len(self.selected_lv)):
             levdownloaded.append(int(levelnumbers[self.selected_lv[k]]))
@@ -116,7 +126,11 @@ class MyWindow:
     
     def download(self, value):
         for i in range(len(self.selected_lv)):
-            wget.download(download_prefix + str(levelnumbers[self.selected_lv[i]]), here + '/save/' + str(i) + '.zip')
+          
+            crs_data = requests.get(download_prefix + str(levelnumbers[self.selected_lv[i]])).content
+            with open(here + '/save/' + str(i) + '.zip', 'wb') as zhandler:
+                zhandler.write(crs_data)   
+        
         for j in range(len(self.selected_lv)):
             with zipfile.ZipFile(here + '/save/' + str(j) + '.zip', 'r') as zip_ref:
                 zip_ref.extractall(here + '/save/')
@@ -155,6 +169,10 @@ class MyWindow:
 
     def updateicon(self, value):
         icon_num = self.lb.index(ACTIVE) + (self.page_selected * 40)
+        if not os.path.isfile(here + "/icons/" + str(levelnumbers[icon_num]) + ".jpg"): 
+            img_data = requests.get(icon_prefix + str(levelnumbers[icon_num])).content
+            with open(here + '/icons/' + str(levelnumbers[icon_num]) +'.jpg', 'wb') as handler:
+                handler.write(img_data)        
         self.img = ImageTk.PhotoImage(Image.open(here + "/icons/" + str(levelnumbers[icon_num]) + ".jpg"))  #---------------------------------------
         thumbnail = Label(window, image = self.img)
         thumbnail.place(x = 20, y = 20)
