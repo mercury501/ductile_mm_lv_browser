@@ -13,7 +13,7 @@ lbl = [None for a in range(100)]
 here = os.path.dirname(os.path.abspath(__file__))
 
 downloaded_indexes = []
-download_prefix = 'https://tinfoil.io/MarioMaker/Download/'
+download_prefix = 'https://tinfoil.media/MarioMaker/Download/'
 levdownloaded = []
 
 with open(os.path.join(here, "levelnames.pickle"), "rb") as fp:

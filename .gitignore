@@ -5,3 +5,6 @@ save/*.btl
 chromedriver.exe
 debug.log
 *.pickle
+list.json
+list.txt
+test.py
